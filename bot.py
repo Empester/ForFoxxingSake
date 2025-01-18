@@ -27,6 +27,11 @@ async def desync(ctx):
 
 
 @bot.event
+async def on_mention(message):
+    if message.author.bot == False and bot.user.mentioned_in(message) and len(message.content) == len(bot.user.mention)+1:
+        await ctx.reply("Yes, I do indeed can respond to you.")
+
+@bot.event
 async def on_ready():
     bot_intro = [
         "started"
