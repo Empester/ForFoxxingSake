@@ -13,12 +13,17 @@ intents.message_content = True
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("!"), intents=intents)
 TOKEN = os.getenv("TOKEN")
 
-@bot.hybrid_command(name='ping', with_app_command=True)
+@bot.hybrid_command(name='ping', description="Returns latency.", with_app_command=True)
 async def ping(ctx):
     latency = round(bot.latency*1000)
     await ctx.send(f"Ping: {latency}ms")
 
-@bot.command(name='desync', with_app_command=False)
+@bot.command(name='nvim', description="Replies with a sentence")
+async def nvim(ctx):
+
+    await ctx.reply("I use nvim btw")
+
+@bot.command(name='desync', description="Desyncs Guild_ID")
 async def desync(ctx):
     guild = discord.Object(id=GUILD_ID)
     bot.tree.clear_commands(guild=guild)
