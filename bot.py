@@ -11,6 +11,8 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("!"), intents=intents)
+#bot = commands.Bot(command_prefix="!", intents=intents)
+
 TOKEN = os.getenv("TOKEN")
 
 @bot.hybrid_command(name='ping', description="Returns latency.", with_app_command=True)
