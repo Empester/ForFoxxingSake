@@ -1,17 +1,20 @@
 import discord
-
+import logging
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
 
+logging.basicConfig(level=logging.DEBUG)
 load_dotenv()
 
+# Basic config
 GUILD_ID = 1322769222639816707
+PREFIX = "!"
 
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix=commands.when_mentioned_or("!"), intents=intents)
+bot = commands.Bot(command_prefix=commands.when_mentioned_or(PREFIX), intents=intents)
 #bot = commands.Bot(command_prefix="!", intents=intents)
 
 TOKEN = os.getenv("TOKEN")
@@ -39,6 +42,9 @@ async def on_message(message):
         return
     if bot.user.mentioned_in(message) and message.content.strip() == bot.user.mention:
         await message.reply("At your service.")
+    if message.content.startswith(PREFIX):
+        await bot.process_commands(message)
+        
 @bot.event
 async def on_ready():
     bot_intro = [
