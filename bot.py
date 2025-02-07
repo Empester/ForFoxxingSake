@@ -15,7 +15,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(PREFIX), intents=intents)
-slash = SlashCommand(bot, sync_commands=True)
+
 #bot = commands.Bot(command_prefix="!", intents=intents)
 
 TOKEN = os.getenv("TOKEN")
@@ -27,8 +27,10 @@ async def ping(ctx):
 
 @bot.hybrid_command(name="stats", description="Returns the bot's stats.", with_app_command=True)
 async def stats(ctx):
-    result = subprocess.run(["uname"], capture_output=True, text=True)
-    await ctx.send(f"`{result.stdout}`")
+    result1 = subprocess.run(["uname"], capture_output=True, text=True)
+    result2 = subprocess.run(["uname -n"], capture_output=True, text=True)
+    _uname = result1+result2
+    await ctx.send(f"`{_uname.stdout}`")
 
 
 
