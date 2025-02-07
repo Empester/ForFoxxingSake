@@ -31,7 +31,7 @@ async def stats(ctx: SlashContext):
 
     result = subprocess.run(["uname"], capture_output=True, text=True)
 
-    await ctx.send(f"Output:\n```\n{result.stdout}\n```"
+    await ctx.send(f"Output:\n```\n{result.stdout}\n```")
 
 @bot.command(name='nvim', description="Replies with a sentence")
 async def nvim(ctx):
@@ -61,12 +61,15 @@ async def on_ready():
     ]
     for intro_of_bot in bot_intro:
         print("Bot...".ljust(11) + intro_of_bot)
-
-
-async def setup_hook():
     guild = discord.Object(id=GUILD_ID)
     bot.tree.copy_global_to(guild=guild)
     await bot.tree.sync(guild=guild)
 
-bot.setup_hook=setup_hook
+
+# async def setup_hook():
+#     guild = discord.Object(id=GUILD_ID)
+#     bot.tree.copy_global_to(guild=guild)
+#     await bot.tree.sync(guild=guild)
+
+# bot.setup_hook=setup_hook
 bot.run(TOKEN)
