@@ -25,19 +25,14 @@ async def ping(ctx):
     latency = round(bot.latency*1000)
     await ctx.send(f"Ping: {latency}ms")
 
+# Linux specific, remove if ran on windows
 @bot.hybrid_command(name="stats", description="Returns the bot's stats.", with_app_command=True)
 async def stats(ctx):
     result1 = subprocess.run(["uname"], capture_output=True, text=True)
-    result2 = subprocess.run(["uname -n"], capture_output=True, text=True)
-    _uname = result1+result2
-    await ctx.send(f"`{_uname.stdout}`")
+    result2 = subprocess.run(["uname", "-n"], capture_output=True, text=True)
+    await ctx.send(f"{result1.stdout}")
 
 
-
-@bot.command(name='nvim', description="Replies with a sentence")
-async def nvim(ctx):
-
-    await ctx.reply("I use nvim btw")
 
 @bot.command(name='desync', description="Desyncs Guild_ID")
 async def desync(ctx):
@@ -51,7 +46,7 @@ async def on_message(message):
     if message.author.bot:
         return
     if bot.user.mentioned_in(message) and message.content.strip() == bot.user.mention:
-        await message.reply("At your service.")
+        await message.reply("What did you call me for?")
     if message.content.startswith(PREFIX):
         await bot.process_commands(message)
         
