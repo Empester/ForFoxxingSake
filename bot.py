@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands
-from discord_slash import SlashCommand, SlashContext
 from dotenv import load_dotenv
 import os
 import subprocess
@@ -26,12 +25,12 @@ async def ping(ctx):
     latency = round(bot.latency*1000)
     await ctx.send(f"Ping: {latency}ms")
 
-@slash.slash(name="stats", description="Show the stats of the bot")
-async def stats(ctx: SlashContext):
-
+@bot.hybrid_command(name="stats", description="Returns the bot's stats.", with_app_command=True)
+async def stats(ctx):
     result = subprocess.run(["uname"], capture_output=True, text=True)
+    await ctx.send(f"`{result.stdout}`")
 
-    await ctx.send(f"Output:\n```\n{result.stdout}\n```")
+
 
 @bot.command(name='nvim', description="Replies with a sentence")
 async def nvim(ctx):
