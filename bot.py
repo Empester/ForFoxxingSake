@@ -1,10 +1,11 @@
 import discord
-import logging
 from discord.ext import commands
+from discord_slash import SlashCommand, SlashContext
 from dotenv import load_dotenv
 import os
+import subprocess
 
-logging.basicConfig(level=logging.DEBUG)
+
 load_dotenv()
 
 # Basic config
@@ -15,6 +16,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(PREFIX), intents=intents)
+slash = SlashCommand(bot, sync_commands=True)
 #bot = commands.Bot(command_prefix="!", intents=intents)
 
 TOKEN = os.getenv("TOKEN")
@@ -23,6 +25,13 @@ TOKEN = os.getenv("TOKEN")
 async def ping(ctx):
     latency = round(bot.latency*1000)
     await ctx.send(f"Ping: {latency}ms")
+
+@slash.slash(name="stats", description="Show the stats of the bot")
+async def stats(ctx: SlashContext):
+
+    result = subprocess.run(["uname"], capture_output=True, text=True)
+
+    await ctx.send(f"Output:\n```\n{result.stdout}\n```"
 
 @bot.command(name='nvim', description="Replies with a sentence")
 async def nvim(ctx):
